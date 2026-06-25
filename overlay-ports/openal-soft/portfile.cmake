@@ -16,13 +16,18 @@ vcpkg_replace_string(
     "| std::views::transform([](ContextBase::EffectSlotCluster const &clusterptr) -> auto&\n            {\n                return *clusterptr;\n            })"
 )
 
-vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
-    FEATURES
-        pipewire    ALSOFT_BACKEND_PIPEWIRE
-        pipewire    ALSOFT_REQUIRE_PIPEWIRE
-        pulseaudio  ALSOFT_BACKEND_PULSEAUDIO
-        pulseaudio  ALSOFT_REQUIRE_PULSEAUDIO
-)
+set(ALSOFT_BACKEND_PIPEWIRE OFF)
+set(ALSOFT_REQUIRE_PIPEWIRE OFF)
+set(ALSOFT_BACKEND_PULSEAUDIO OFF)
+set(ALSOFT_REQUIRE_PULSEAUDIO OFF)
+if("pipewire" IN_LIST FEATURES)
+    set(ALSOFT_BACKEND_PIPEWIRE ON)
+    set(ALSOFT_REQUIRE_PIPEWIRE ON)
+endif()
+if("pulseaudio" IN_LIST FEATURES)
+    set(ALSOFT_BACKEND_PULSEAUDIO ON)
+    set(ALSOFT_REQUIRE_PULSEAUDIO ON)
+endif()
 
 if(VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")
     set(OPENAL_LIBTYPE "SHARED")
